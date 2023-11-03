@@ -12,14 +12,13 @@ async function main() {
   // console.log("*" * 10);
   // console.log("Contract address:", await contractSUM.getAddress());
 
-//add wait here
+  //add wait here
 
+  const contract = await ethers.deployContract("ABXTOKEN");
 
-  const contractDIV = await ethers.deployContract("Div");
-
-  await contractDIV.waitForDeployment();
+  await contract.waitForDeployment();
   console.log("*" * 10);
-  console.log("Contract address:", await contractDIV.getAddress());
+  console.log("Contract address:", await contract.getAddress());
 }
 
 main()

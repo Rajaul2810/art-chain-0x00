@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useAccount, useWalletClient, usePublicClient } from "wagmi";
 import { getContract, getWalletClient } from "@wagmi/core";
-import { abiSUM, abiDIV } from "../contracts";
+import { abiABX } from "../contracts";
 import { ethers, BrowserProvider } from "ethers";
 import { useWaitForTransaction } from "wagmi";
 
@@ -16,17 +16,17 @@ const GlobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
   const { address, isConnected, isDisconnected } = useAccount();
 
-  const [sumState, setsumState] = useState({
+  const [ABXState, setABXState] = useState({
     provider: null,
     signer: null,
     contract: null,
   });
 
-  const [divState, setdivState] = useState({
-    provider: null,
-    signer: null,
-    contract: null,
-  });
+  // const [divState, setdivState] = useState({
+  //   provider: null,
+  //   signer: null,
+  //   contract: null,
+  // });
 
   const [errorMessage, seterrorMessage] = useState("");
   const [tx, setTx] = useState("");
@@ -35,39 +35,37 @@ export const GlobalProvider = ({ children }) => {
   });
 
   const contractInstance = async () => {
-    const contractAddressSUM = import.meta.env.VITE_CONTRACT_ADDRESS_SUM;
-    const contractAddressDIV = import.meta.env.VITE_CONTRACT_ADDRESS_DIV;
-    const contractABISUM = abiSUM;
-    const contractABIDIV = abiDIV;
+    const contractABX = import.meta.env.VITE_CONTRACT_ADDRESS_ABXTOKEN;
+    const contractAbiABX = abiABX;
     try {
       const { ethereum } = window;
 
       if (ethereum) {
         const provider = new ethers.BrowserProvider(ethereum);
         const signer = await provider.getSigner();
-        const contractSUM = new ethers.Contract(
-          contractAddressSUM,
-          contractABISUM,
+        const contractABXTOKEN = new ethers.Contract(
+          contractABX,
+          contractAbiABX,
           signer
         );
-        setsumState({
+        setABXState({
           provider: provider,
           signer: signer,
-          contract: contractSUM,
+          contract: contractABXTOKEN,
         });
-        console.log("ContractSUM", contractSUM);
+        console.log("contractABXTOKEN", contractABXTOKEN);
 
-        const contractDIV = new ethers.Contract(
-          contractAddressDIV,
-          contractABIDIV,
-          signer
-        );
-        setdivState({
-          provider: provider,
-          signer: signer,
-          contract: contractDIV,
-        });
-        console.log("ContractDIV", contractDIV);
+        // const contractDIV = new ethers.Contract(
+        //   contractAddressDIV,
+        //   contractABIDIV,
+        //   signer
+        // );
+        // setdivState({
+        //   provider: provider,
+        //   signer: signer,
+        //   contract: contractDIV,
+        // });
+        // console.log("ContractDIV", contractDIV);
       } else {
         alert("Please install metamask");
       }
@@ -113,8 +111,7 @@ export const GlobalProvider = ({ children }) => {
         address,
         isConnected,
         isDisconnected,
-        sumState,
-        divState,
+        ABXState,
         tx,
         setTx,
         error,

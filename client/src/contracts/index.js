@@ -1,7 +1,5 @@
-import contractSUM from "./Sum.json";
-import contractDIV from "./Div.json";
+import contractABX from "./ABXToken.json";
 
-const abiSUM = contractSUM.abi;
-const abiDIV = contractDIV.abi;
+const abiABX = contractABX.abi;
 
-export { abiSUM, abiDIV };
+export { abiABX };
