@@ -15,12 +15,11 @@ import CreateProduct from "./pages/CreateProduct";
 import ProductList from "./pages/ProductList";
 
 function App() {
-   const {
+  const {
     address,
     isConnected,
     isDisconnected,
-    sumState,
-    divState,
+    ABXState,
     tx,
     setTx,
     error,
@@ -28,27 +27,18 @@ function App() {
     isSuccess,
   } = useGlobalContext();
 
-  const sumContract = sumState.contract;
-  const divContract = divState.contract;
+  const ABXcontract = ABXState.contract;
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageURI, setImageURI] = useState(null);
 
   const web3Storage = getWeb3Storage();
 
-  console.log("sumContract from app.jsx", sumState);
-  console.log("divContract from app.jsx", divState);
+  console.log("ABXState from app.jsx", ABXState);
 
-  const sumAns = async () => {
-    const tx = await sumContract.summation();
-    setTx(tx);
-    console.log("tx from app.jsx", tx);
-  };
+  const sumAns = async () => {};
 
-  const divAns = async () => {
-    const tx = await divContract.division();
-    setTx(tx);
-  };
+  const divAns = async () => {};
 
   const handleImageUpload = async (e) => {
     try {
@@ -75,17 +65,17 @@ function App() {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/community" element={<Community/>} />
-        <Route path="/exchange" element={<Exchange/>} />
-        <Route path="/create" element={<CreateCom/>} />
-        <Route path="/createProduct" element={<CreateProduct/>} />
-        <Route path="/productList" element={<ProductList/>} />
-        <Route path="/community/:id" element={<CommunityDetails/>}/>
+        <Route path="/" element={<Home />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/exchange" element={<Exchange />} />
+        <Route path="/create" element={<CreateCom />} />
+        <Route path="/createProduct" element={<CreateProduct />} />
+        <Route path="/productList" element={<ProductList />} />
+        <Route path="/community/:id" element={<CommunityDetails />} />
       </Routes>
-      <Footer/>
+      <Footer />
       {/* <h1>{address}</h1>
       <h1>{isConnected ? "Connected" : "Not Connected"}</h1>
       <h1>{isDisconnected ? "Disconnected" : "Not Disconnected"}</h1>
@@ -96,7 +86,6 @@ function App() {
       {/* <input type="file" accept="image/*" onChange={handleImageUpload} />
       {imageURI && <img src={imageURI} alt="Uploaded" />}
       {imageURI && <h1>{imageURI}</h1>} */}
-     
     </div>
   );
 }
