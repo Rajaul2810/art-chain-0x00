@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Link } from "react-router-dom";
 import { FaWallet } from "react-icons/fa";
-
+import { useGlobalContext } from "../context";
+import { useEffect } from "react";
+import { ethers } from "ethers";
 const Navbar = () => {
+  const {
+    address,
+    isConnected,
+    isDisconnected,
+    ABXState,
+    tx,
+    setTx,
+    error,
+    isLoading,
+    isSuccess,
+  } = useGlobalContext();
+
+  const ABXcontract = ABXState.contract;
+  const [token, setToken] = useState(0);
+
+  const ABXtokenFunc = async () => {
+    const token = await ABXcontract.balanceOf(address);
+    setToken(Number(token) / 10 ** 12);
+    console.log(Number(token) / 10 ** 12);
+  };
+  console.log(token);
+
+  const getAbx = () => {
+    ABXtokenFunc();
+  };
+
+  // useEffect(() => {
+  //   ABXtokenFunc();
+  // }, [ABXcontract]);
+
   return (
     <div className="navbar bg-base-100 shadow-md mb-2">
       <div className="navbar-start">
@@ -47,7 +79,7 @@ const Navbar = () => {
                   tabIndex={0}
                   className="btn btn-ghost btn-circle bg-black"
                 >
-                  <div className="indicator">
+                  <div className="indicator" onClick={getAbx}>
                     <FaWallet size={25} color=" white" />
                     <span className="badge badge-sm indicator-item bg-red-700 animate-pulse text-white">
                       wallet
@@ -56,11 +88,13 @@ const Navbar = () => {
                 </label>
                 <div
                   tabIndex={0}
-                  className="mt-3 z-[1] card card-compact dropdown dropdown-end w-52 bg-base-100 shadow"
+                  className="mt-3 z-[1] card card-compact dropdown dropdown-end w-72 bg-base-100 shadow"
                 >
                   <div className="card-body">
-                    <span className="font-bold text-md">ABX Token: 8</span>
-                    <Link to="/productList" >Product List</Link>
+                    <span className="font-bold text-md">
+                      ABX Token: {token}
+                    </span>
+                    <Link to="/productList">Product List</Link>
                   </div>
                 </div>
               </div>
@@ -92,7 +126,7 @@ const Navbar = () => {
         <div className="flex-none">
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle bg-black">
-              <div className="indicator">
+              <div className="indicator" onClick={getAbx}>
                 <FaWallet size={25} color=" white" />
                 <span className="badge badge-sm indicator-item bg-red-700 animate-pulse text-white">
                   wallet
@@ -101,11 +135,11 @@ const Navbar = () => {
             </label>
             <div
               tabIndex={0}
-              className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
+              className="mt-3 z-[1] card card-compact dropdown-content w-72 bg-base-100 shadow"
             >
               <div className="card-body">
-                <span className="font-bold text-md">ABX Token: 8</span>
-                <Link to="/productList" >Product List</Link>
+                <span className="font-bold text-md">ABX Token: {token}</span>
+                <Link to="/productList">Product List</Link>
               </div>
             </div>
           </div>

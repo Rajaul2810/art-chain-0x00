@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useAccount, useWalletClient, usePublicClient } from "wagmi";
 import { getContract, getWalletClient } from "@wagmi/core";
-import { abiABX } from "../contracts";
+import { abiABX, abiCommunity } from "../contracts";
 import { ethers, BrowserProvider } from "ethers";
 import { useWaitForTransaction } from "wagmi";
 
@@ -22,11 +22,11 @@ export const GlobalProvider = ({ children }) => {
     contract: null,
   });
 
-  // const [divState, setdivState] = useState({
-  //   provider: null,
-  //   signer: null,
-  //   contract: null,
-  // });
+  const [ComState, setComState] = useState({
+    provider: null,
+    signer: null,
+    contract: null,
+  });
 
   const [errorMessage, seterrorMessage] = useState("");
   const [tx, setTx] = useState("");
@@ -36,6 +36,7 @@ export const GlobalProvider = ({ children }) => {
 
   const contractInstance = async () => {
     const contractABX = import.meta.env.VITE_CONTRACT_ADDRESS_ABXTOKEN;
+    const contractCommunity = import.meta.env.VITE_CONTRACT_ADDRESS_COMMUNITY;
     const contractAbiABX = abiABX;
     try {
       const { ethereum } = window;
@@ -55,17 +56,17 @@ export const GlobalProvider = ({ children }) => {
         });
         console.log("contractABXTOKEN", contractABXTOKEN);
 
-        // const contractDIV = new ethers.Contract(
-        //   contractAddressDIV,
-        //   contractABIDIV,
-        //   signer
-        // );
-        // setdivState({
-        //   provider: provider,
-        //   signer: signer,
-        //   contract: contractDIV,
-        // });
-        // console.log("ContractDIV", contractDIV);
+        const contractCommun = new ethers.Contract(
+          contractCommunity,
+          abiCommunity,
+          signer
+        );
+        setComState({
+          provider: provider,
+          signer: signer,
+          contract: contractCommun,
+        });
+        console.log("contractCommunity", contractCommun);
       } else {
         alert("Please install metamask");
       }
@@ -112,6 +113,7 @@ export const GlobalProvider = ({ children }) => {
         isConnected,
         isDisconnected,
         ABXState,
+        ComState,
         tx,
         setTx,
         error,
