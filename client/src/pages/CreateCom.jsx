@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import create from "../assets/create.svg";
 import { useGlobalContext } from "../context";
 
@@ -8,6 +8,7 @@ const CreateCom = () => {
     isConnected,
     isDisconnected,
     ABXState,
+    ComState,
     tx,
     setTx,
     error,
@@ -16,9 +17,12 @@ const CreateCom = () => {
   } = useGlobalContext();
 
   const ABXcontract = ABXState.contract;
+  const Comcontract = ComState.contract;
   const [community, setCommunity] = useState({
     title: "",
     description: "",
+    name: "",
+    symbol: "",
   });
 
   const handleChange = (e) => {
@@ -31,12 +35,13 @@ const CreateCom = () => {
     e.preventDefault();
     const ok = await ABXcontract.isEligible();
     console.log(ok);
-    if (ok) {
-      const tx = await ABXcontract.createCommunity(
+    if (ok === true) {
+      await Comcontract.createCommunity(
         community.title,
-        community.description
+        community.description,
+        community.name,
+        community.symbol
       );
-      setTx(tx);
     } else {
       alert("You have not enough ABX token to create community");
     }
@@ -79,6 +84,32 @@ const CreateCom = () => {
                       placeholder="Enter description"
                       className="input input-bordered"
                       name="description"
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Token Name</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter Token Namename"
+                      className="input input-bordered"
+                      name="name"
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Symbul</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter description"
+                      className="input input-bordered"
+                      name="symbul"
                       onChange={handleChange}
                       required
                     />

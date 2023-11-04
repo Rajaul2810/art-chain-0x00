@@ -51,7 +51,7 @@ const Exchange = () => {
                     </label>
                     <input
                       type="text"
-                      placeholder="1 eth = 1 abx token"
+                      placeholder="0.000001 eth = 1 abx token"
                       className="input input-bordered"
                       disabled
                     />
