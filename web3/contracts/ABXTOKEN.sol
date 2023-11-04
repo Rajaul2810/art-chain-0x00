@@ -19,7 +19,7 @@ contract ABXTOKEN is ERC20, ERC20Burnable {
     function buyABX(uint _avxquantity) external payable {
         require(msg.sender != address(0), "User is not valid");
         require(msg.sender != owner, "Owner can't buy ABX from himself!!");
-        uint etherQuan = 0.001 ether * _avxquantity;
+        uint etherQuan = 0.000001 ether * _avxquantity;
         require(
             etherQuan == msg.value,
             "Please select the specified amount of ether"
@@ -32,7 +32,7 @@ contract ABXTOKEN is ERC20, ERC20Burnable {
     /// @notice Checks if the caller is eligible to create communities.
     /// @return true if the caller's balance is greater than or equal to 10000.
     function isEligible() external view returns (bool) {
-        if (balanceOf(tx.origin) >= 100) {
+        if (balanceOf(tx.origin) >= 10) {
             return true;
         }
         return false;

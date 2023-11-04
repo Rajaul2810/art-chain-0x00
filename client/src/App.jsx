@@ -36,10 +36,6 @@ function App() {
 
   console.log("ABXState from app.jsx", ABXState);
 
-  const sumAns = async () => {};
-
-  const divAns = async () => {};
-
   const handleImageUpload = async (e) => {
     try {
       const file = e.target.files[0];
@@ -61,6 +57,10 @@ function App() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const buyToken = async () => {
+    const tx = await ABXcontract.buyABX();
   };
 
   return (
